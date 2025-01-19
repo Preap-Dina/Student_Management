@@ -5,14 +5,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-
-
-
-
 <?php
     include 'connectDB.php';
 
-    // Add new student function
+    // function for adding new student
     function addstudent(){
         global $connection;
         if(isset($_POST['btn-add-student'])){
@@ -45,7 +41,7 @@
     addstudent();
 
 
-    // display student
+    // function for displaying student
     function getStudent(){
         global $connection;
 
@@ -62,13 +58,94 @@
                     <td>'.$row['major'].'</td>
                     <td>'.$row['year'].'</td>
                     <td>
-                        <button class="btn btn-warning">Update</button>
-                        <button class="btn btn-danger">Remove</button>
+                        <button class="btn btn-warning btn-update" data-bs-toggle="modal" data-bs-target="#exampleModalUpdate" data-bs-whatever="@mdo">Update</button>
+                        <button class="btn btn-danger btn-remove" data-bs-toggle="modal" data-bs-target="#exampleModalRemove">Remove</button>
                     </td>
                 </tr>
-
             ';
         }
     }
+
+
+    // function for removing student
+    function removeStudent(){
+        global $connection;
+
+        if(isset($_POST['btn-confrim-remove'])){
+            $id = $_POST['hidden-id'];
+
+            $sql_remove = "DELETE FROM student_list WHERE id = '$id'";
+
+            $result = $connection->query($sql_remove);
+            if ($result){
+                echo '
+                    <script>
+                        $(document).ready(function(){
+                            swal({
+                                title: "Done",
+                                text: "You removed student",
+                                icon: "success",
+                                button: "Confirm",
+                            });
+                        })
+                    </script> 
+                ';
+            }
+        }
+    }
+    removeStudent();
+
+
+    // function for updating student
+    function updateStudent(){
+        global $connection;
+
+        if(isset($_POST['btn-confirm-update'])){
+            $id = $_POST['id'];
+            $fullName_update = $_POST['fullName-update'];
+            $email_update = $_POST['email-update'];
+            $major_update = $_POST['major-update'];
+            $year_update = $_POST['year-update'];
+
+            $sql_update = "UPDATE student_list 
+            SET fullName='$fullName_update', email='$email_update', major='$major_update', year='$year_update' WHERE id='$id'";
+
+            $result = $connection->query($sql_update);
+
+            if($result){
+                echo '
+                    <script>
+                        $(document).ready(function(){
+                            swal({
+                                title: "Done",
+                                text: "You updated student",
+                                icon: "success",
+                                button: "Confirm",
+                            });
+                        })
+                    </script> 
+                ';
+            }
+        }
+    }   
+    updateStudent();
+
+
+    // function for count number of student
+    function countStudent(){
+        global $connection;
+
+        $sql_count = "SELECT COUNT(id) AS totalStudent FROM student_list";
+
+        $result = $connection->query($sql_count);
+
+        $row = mysqli_fetch_assoc($result);
+
+        echo '
+            <tr>
+                <td colspan="6" class="fw-bold text-light bg-secondary">Total Student: '.$row['totalStudent'].'</td>
+            </tr>
+        ';
+    };
 
 ?>
