@@ -33,8 +33,8 @@
             <div class="container d-flex align-content-center py-3  m-0 m-auto">
                 <a class="navbar-brand text-light fw-bold" style="width: 60px"><img class="w-100 h-100 object-fit-cover" src="./image/RUPP_logo-removebg-preview (1).png" alt=""></a>
                 <form class="d-flex align-middle m-0 p-0" role="search">
-                    <input class="form-control me-2 shadow-none" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-success fw-bold border-light" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add</button>
+                    <input class="form-control me-2 shadow-none" type="search" placeholder="Search..." aria-label="Search">
+                    <button class="btn btn-success  border-light" style="width: 180px;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Student</button>
                 </form>
             </div>
         </nav>
@@ -167,6 +167,7 @@
 </html>
 <script>
     $(document).ready(function(){
+        
         // jquery for delete student 
         $('body').on('click', '.btn-remove', function(){
             let id = $(this).parents('tr').find('td').eq(0).text();
